@@ -16,6 +16,7 @@ from collections.abc import Awaitable, Callable
 from typing import TYPE_CHECKING, Any, Literal
 
 from ..core.config import OWUI_CHAT_ID
+from ..core.costs import redact_usage_cost
 from ..core.errors import _channel_safe_card_text, _inline_span, channel_safe_values
 from ..core.logging_system import SessionLogger
 from ..core.utils import (
@@ -569,6 +570,7 @@ class EventEmitterHandler:
         if event_emitter is None:
             return
 
+        usage = redact_usage_cost(usage, self.valves)
         try:
             await event_emitter(
                 {
@@ -877,7 +879,7 @@ class EventEmitterHandler:
                         and published
                     )
 
-                usage = data.get("usage")
+                usage = redact_usage_cost(data.get("usage"), self.valves)
                 if isinstance(usage, dict) and usage:
                     carried = True
                     published = (

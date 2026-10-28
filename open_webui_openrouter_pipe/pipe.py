@@ -152,6 +152,7 @@ _VALVE_FIELD_ADAPTERS = {
 }
 
 # Import error handling
+from .core.costs import redact_usage_cost
 from .core.error_formatter import ErrorFormatter, _admission_error_response
 from .core.errors import (
     OpenRouterAPIError,
@@ -3832,7 +3833,7 @@ class Pipe:
                         )
                         result["output"] = record
                         if outcome.get("usage"):
-                            result["usage"] = outcome["usage"]
+                            result["usage"] = redact_usage_cost(outcome["usage"], job.valves)
                     if not job.future.done():
                         if stream_queue is None:
                             job.future.set_result(result)

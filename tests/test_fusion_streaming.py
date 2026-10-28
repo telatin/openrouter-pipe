@@ -578,6 +578,7 @@ async def test_completion_without_output_still_emits_final_status(monkeypatch, p
     monkeypatch.setattr(Pipe, "send_openrouter_streaming_request", _fake_stream(events))
     body = ResponsesBody(model="openrouter/fusion", input=[], stream=True)
     emitted: list[dict] = []
+    pipe_instance_async.valves.HIDE_COST_FROM_USERS = False
 
     async def emitter(event):
         emitted.append(event)

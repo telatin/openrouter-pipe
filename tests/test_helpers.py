@@ -1844,7 +1844,7 @@ def test_format_final_status_description_includes_cost_tokens_and_tps(pipe_insta
         elapsed=3.21,
         total_usage=usage,
         stream_duration=2.0,
-        valves=pipe.valves,
+        valves=pipe.Valves(HIDE_COST_FROM_USERS=False),
     )
 
     assert description.startswith("Time: 3.21s  20.0 tps")
@@ -1871,6 +1871,7 @@ def test_format_final_status_description_with_icons(pipe_instance):
     valves = pipe.Valves(
         FINAL_USAGE_STATUS_STYLE="icons",
         USAGE_STATUS_ICON_SET="T,$,TOT,IN,OUT,CACHE,REASON",
+        HIDE_COST_FROM_USERS=False,
     )
     usage = {
         "cost": 0.012345,

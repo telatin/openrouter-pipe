@@ -1,5 +1,10 @@
 # Release notes pending
 
+## New
+
+- **Cost governor plugin** — records each request's real cost per user in an append-only ledger and enforces calendar-month limits by Open WebUI group, with an optional free fallback model once a user is over. See `docs/plugins_cost_governor.md`.
+- **`HIDE_COST_FROM_USERS`** (default on) — the cost is no longer sent to Open WebUI in usage objects or shown in the final status line, so it is not stored on messages or visible in the message info tooltip. Set it off to restore the previous behaviour.
+
 ## Behaviour changes
 
 - **Gemini thinking budget, `0` is now a real off switch for the whole Gemini family** — setting `GEMINI_THINKING_BUDGET` to `0` used to switch thinking off on Gemini 2.5 only. On Gemini 3 it reached nothing at all: the request went out at the chat valve's effort with reasoning and the summary flag still on it, so thinking was on and nothing said so, while the Config tab promised the `0` switched thinking off. The `0` now reaches every Gemini model, Gemini 3 included; a mandatory-reasoning Gemini row (Gemini 3 Pro, like 2.5 Pro) still cannot stop thinking, so the refusal stands, the row's own floor is substituted and the notice goes out in a chat as before. Nothing else moves: the token budget is still Gemini 2.5's alone, because Gemini 3 is governed by Google's thinking-level API and a budget there buys no precise control, so any other value of the valve is ignored on Gemini 3 exactly as before.

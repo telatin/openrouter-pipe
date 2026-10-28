@@ -590,7 +590,11 @@ class ErrorFormatter:
         tokens_for_tps: int | None = None
         segments: list[str] = []
 
-        cost_segment = _cost_segment(usage.get("cost"), use_icons=use_icons, icon_cost=icon_cost)
+        cost_segment = (
+            None
+            if valves.HIDE_COST_FROM_USERS
+            else _cost_segment(usage.get("cost"), use_icons=use_icons, icon_cost=icon_cost)
+        )
         if cost_segment is not None:
             segments.append(cost_segment)
 

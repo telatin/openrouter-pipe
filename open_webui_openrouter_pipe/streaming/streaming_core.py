@@ -66,7 +66,7 @@ from ..core.context_budget import (
 )
 
 # Import costs helper
-from ..core.costs import maybe_dump_costs_snapshot
+from ..core.costs import maybe_dump_costs_snapshot, redact_usage_cost
 from ..core.errors import (
     OpenRouterAPIError,
     RequiredInternalFileError,
@@ -3970,7 +3970,7 @@ class StreamingHandler:
                                             "logprobs": None,
                                         }
                                     ],
-                                    **({"usage": total_usage} if total_usage else {}),
+                                    **({"usage": redact_usage_cost(total_usage, valves)} if total_usage else {}),
                                 }
                                 if SessionLogger.debug_enabled(self.logger) and tool_calls_payload:
                                     summaries: list[dict[str, Any]] = []

@@ -20,6 +20,35 @@ if TYPE_CHECKING:
     from ..pipe import Pipe
 
 
+_USAGE_COST_FIELDS = frozenset(
+    {
+        "cost",
+        "total_cost",
+        "input_cost",
+        "output_cost",
+        "prompt_cost",
+        "completion_cost",
+        "cost_details",
+        "cache_discount",
+        "cache_discount_pct",
+        "is_byok",
+    }
+)
+
+
+def redact_usage_cost(usage: dict[str, Any] | None, valves: Any) -> dict[str, Any] | None:
+    """Return ``usage`` without spend fields when ``HIDE_COST_FROM_USERS`` is on.
+
+    Applied only where usage leaves the pipe toward Open WebUI; plugins and the
+    cost ledger keep the full figures.
+    """
+    if not isinstance(usage, dict) or not usage:
+        return usage
+    if not getattr(valves, "HIDE_COST_FROM_USERS", True):
+        return usage
+    return {key: value for key, value in usage.items() if key not in _USAGE_COST_FIELDS}
+
+
 @timed
 async def maybe_dump_costs_snapshot(
     pipe: Pipe,

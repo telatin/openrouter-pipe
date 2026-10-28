@@ -2529,6 +2529,10 @@ description="Enable SSRF (Server-Side Request Forgery) protection for remote URL
         default=True,
         description="When True, the final status line includes elapsed time, token usage, and the cost of the generation, with the cost shown only when it is above zero; when False, that status line reports elapsed time alone.",
     )
+    HIDE_COST_FROM_USERS: bool = Field(
+        default=True,
+        description="When True, no spend figure reaches the end user: the final status line omits the cost, and the cost fields (cost, total_cost, cost_details, cache_discount and their relatives) are removed from every usage object sent to Open WebUI, so they are neither stored on the message nor shown in its info tooltip. Plugins and the usage store still receive the full figures. Admin-only valve; users cannot override it.",
+    )
     FINAL_USAGE_STATUS_STYLE: Literal["text", "icons"] = Field(
         default="text",
         description="Choose text labels or icons for the final usage status line.",

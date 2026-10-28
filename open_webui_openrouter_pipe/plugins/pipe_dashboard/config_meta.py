@@ -50,6 +50,11 @@ CONFIG_META: dict[str, dict[str, str]] = {
         "group": "Security/Network (SSRF)",
         "detail": "Names the hosts allowed to serve plaintext `http://` images, files, and videos, as an exact-match, case-insensitive allowlist.\n\nIt narrows `Allow plaintext HTTP downloads`: that toggle must be on for any of these to work, and while it is off every `http://` URL is blocked no matter what this list holds. Give comma-separated hosts or `host:port` entries with no wildcards, e.g. `example.com, example.org:8080, 203.0.113.10` (bracket IPv6, as in `[::1]:8080`). A bare host allows port `80` only, a `host:port` entry allows only that port, and a URL with no port is treated as port `80`. If a service you already listed with a bare host listens on another port, add a `host:port` entry for it; the bare entry does not cover that port. Empty - the default - blocks all plaintext HTTP, so a matching `http://` link is dropped and reported once: an image or file on the skipped-attachment status, a video on the error card. An audio attachment is never sent as a link at all - OpenRouter takes audio as base64 only, so an `http://` or `https://` audio URL is dropped and reported once, as a `Files: skipped N (...)` status naming the reason. Listing a host here does not change this: audio is refused because it must arrive as base64, not because the link is plain HTTP.\n\n**Warning:** Matching is exact - `example.com` does not cover `www.example.com`, so list every host. Listed hosts are still reached over unencrypted HTTP, so keep the list to trusted internal addresses.",
     },
+    "HIDE_COST_FROM_USERS": {
+        "title": "Hide spend from end users",
+        "group": "Usage & Status/Status Display",
+        "detail": "When enabled, no spend figure reaches the person chatting: the final status line leaves the cost out, and the cost fields are removed from every usage object sent to Open WebUI, so they are neither stored on the message nor shown in its info tooltip.\n\nOn by default. Token counts are unaffected. The usage store and plugins still receive the full figures, so administrators keep complete cost records. This valve is administrator-only; users cannot override it."
+    },
     "VIDEO_REFERENCE_ALLOWED_DOMAINS": {
         "title": "Video reference host allowlist",
         "group": "Security/Network (SSRF)",
