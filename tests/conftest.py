@@ -8,6 +8,7 @@ from __future__ import annotations
 import owui_stubs  # noqa: F401 - Open WebUI/sqlalchemy/tenacity stand-ins + env defaults
 
 import contextlib
+import logging
 import os
 import tempfile
 import threading
@@ -271,12 +272,19 @@ def _maybe_install_bundled_pipe() -> None:
     spec.loader.exec_module(module)
 
 
-_maybe_install_bundled_pipe()
+# The stub Open WebUI has no config/events/socket modules, so the first import of the pipe
+# logs "unavailable" warnings with tracebacks; they are expected here and would otherwise
+# land on the terminal after the progress bar under xdist.
+logging.disable(logging.WARNING)
+try:
+    _maybe_install_bundled_pipe()
 
-from open_webui_openrouter_pipe import EncryptedStr, Pipe
-from open_webui_openrouter_pipe.core.circuit_breaker import CircuitBreaker
-from open_webui_openrouter_pipe.models.registry import OpenRouterModelRegistry, ModelFamily
-from tests.pipe_limits import reset_all_slots
+    from open_webui_openrouter_pipe import EncryptedStr, Pipe
+    from open_webui_openrouter_pipe.core.circuit_breaker import CircuitBreaker
+    from open_webui_openrouter_pipe.models.registry import OpenRouterModelRegistry, ModelFamily
+    from tests.pipe_limits import reset_all_slots
+finally:
+    logging.disable(logging.NOTSET)
 
 
 #: Real paths the session was asked to collect, when every argument is a plain file and
