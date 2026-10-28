@@ -1790,7 +1790,10 @@ async def test_auto_cancellation_after_loader_swap_still_commits(svc, wired, mon
 
 @pytest.mark.asyncio
 async def test_check_repo_is_default_flag(svc, fake_functions, fake_http):
-    _wire_latest(fake_http)
+    from open_webui_openrouter_pipe.plugins.pipe_dashboard.update_service import DEFAULT_REPO
+
+    _wire_latest(fake_http, repo=DEFAULT_REPO)
+    svc._get_pipe().valves.PIPE_DASHBOARD_UPDATE_REPO = DEFAULT_REPO
     out = await svc.check()
     assert out["repo_is_default"] is True
     _wire_latest(fake_http, repo="someone/fork")

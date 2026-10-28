@@ -36,7 +36,7 @@ _PROXY_ENV_VARS = (
 _warned_proxy_env: set[str] = set()
 
 FUNCTION_ID = "open_webui_openrouter_pipe"
-DEFAULT_REPO = "rbb-dev/Open-WebUI-OpenRouter-pipe"
+DEFAULT_REPO = "telatin/openrouter-pipe"
 MIN_UPDATE_VERSION = "2.7.0"
 
 _PD_UPDATE_CHECK_MEMO_S = 60.0

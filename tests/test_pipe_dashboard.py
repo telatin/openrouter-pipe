@@ -1017,6 +1017,6 @@ def test_update_plugin_valves_declared_with_defaults():
     pv = PipeDashboardPlugin.plugin_valves
     assert pv["PIPE_DASHBOARD_UPDATE_ENABLE"][1].default is True
     assert pv["PIPE_DASHBOARD_UPDATE_SNAPSHOT_KEEP"][1].default == 3
-    assert pv["PIPE_DASHBOARD_UPDATE_REPO"][1].default == "rbb-dev/Open-WebUI-OpenRouter-pipe"
+    assert pv["PIPE_DASHBOARD_UPDATE_REPO"][1].default == "telatin/openrouter-pipe"
     assert pv["PIPE_DASHBOARD_UPDATE_AUTO"][1].default is False
     assert pv["PIPE_DASHBOARD_UPDATE_AUTO_DELAY_HOURS"][1].default == 168

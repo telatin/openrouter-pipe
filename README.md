@@ -4,6 +4,21 @@
 [![Version](https://img.shields.io/badge/version-2.8.0-blue.svg)](https://github.com/rbb-dev/Open-WebUI-OpenRouter-pipe)
 [![Open WebUI Compatible](https://img.shields.io/badge/Open%20WebUI-0.11.4%2B-green.svg)](https://openwebui.com/)
 
+> ## QI-GPT fork
+>
+> This repository is a fork of [rbb-dev/Open-WebUI-OpenRouter-pipe](https://github.com/rbb-dev/Open-WebUI-OpenRouter-pipe) (MIT), customised for **QI-GPT**, a shared Open WebUI instance with LDAP-authenticated users. Credit for the pipe itself goes to the upstream author; the descriptions below are upstream's unless marked otherwise.
+>
+> What this fork adds or changes:
+>
+> - **Hidden cost.** The new admin valve `HIDE_COST_FROM_USERS` (on by default) removes the cost from the final status line and from every usage object sent to Open WebUI, so users cannot see spend in the chat or in a message's info tooltip.
+> - **Cost governor plugin.** Records each request's real cost per user in a ledger table, and enforces calendar-month limits per Open WebUI group (for example `quota-base`, `quota-medium`, `quota-pro`), with an optional free fallback model once a user is over. See [docs/plugins_cost_governor.md](docs/plugins_cost_governor.md).
+> - **Admin reporting.** `scripts/ledger_report.py` exports monthly spend per user as CSV.
+> - **Makefile.** `make bundle` rebuilds the single-file install; `make help` lists the other targets.
+>
+> Still planned: model aliases and a simplified per-user settings panel. The fork is under development and has not yet been tested in a running Open WebUI.
+>
+> **Installing the fork:** the release links in [Quick Start](#quick-start) point at the upstream project. To install this fork, run `make bundle` and paste the resulting `open_webui_openrouter_pipe_bundled.py` into **Admin Panel → Functions**, or point the `requirements:` line of the stub loader at this repository.
+
 **520+ AI models. Chat, image, video, and live multi-model Fusion with full access to your knowledge bases and tools — all from your Open WebUI.**
 
 GPT-6 Astra Pro, Claude Fable 5.1, Gemini 3.8, Grok 4.6 — the open-weight frontier too, with DeepSeek V4.1, Kimi K3 and GLM 5.3 — plus FLUX.2, GPT Image 2.5, Seedream 5.0, Riverflow, Sora 2, Veo 3.1, Kling v3 and Wan 3.0 for pictures and video. Text, images, and video generation through OpenRouter's unified API, plus live multi-model Fusion deliberation that runs inside your Open WebUI — panels that draw on your knowledge bases and tools, not just the open web. One key, one bill, every model that matters.
@@ -97,6 +112,8 @@ Provider routing policies, ZDR enforcement, retention controls, per-model access
 ## Quick Start
 
 **1. Install**
+
+> These links install the **upstream** project, not the QI-GPT fork; see [QI-GPT fork](#qi-gpt-fork) above for the fork.
 
 In Open WebUI: **Admin Panel** → **Functions** → **+** → **Import from Link**
 
@@ -205,6 +222,8 @@ Plus [`CHANGELOG.md`](CHANGELOG.md) — audit trail of changes.
 ---
 
 ## Contributing & forking
+
+This fork is maintained for QI-GPT. For upstream issues and releases, see [rbb-dev/Open-WebUI-OpenRouter-pipe](https://github.com/rbb-dev/Open-WebUI-OpenRouter-pipe).
 
 If you fork this, run the same checks CI does before pushing: `ruff check`, `pyright`, and `pytest`. CI validates the source plus all four generated bundles (readable and compressed, each with and without plugins) across five test modes on every push.
 

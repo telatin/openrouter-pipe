@@ -13,7 +13,7 @@ BUNDLES         = $(FLAT) $(COMPRESSED) $(FLAT_NP) $(COMPRESSED_NP)
 SOURCES = $(shell find open_webui_openrouter_pipe -name '*.py' -not -path '*/__pycache__/*') \
           open_webui_openrouter_pipe.py scripts/bundle_v2.py scripts/anyio_1111_workaround.py
 
-.PHONY: help bundle all clean test lint typecheck gate
+.PHONY: help bundle all clean test lint gate release release-dry-run
 
 help:
 	@echo "make bundle      flat bundle only ($(FLAT))"
@@ -21,6 +21,8 @@ help:
 	@echo "make clean       delete the four bundles"
 	@echo "make test        package test suite"
 	@echo "make lint        ruff (source) + pyright"
+	@echo "make release    create a GitHub release v<version> with gh and upload the four bundles"
+	@echo "make release-dry-run  run the release checks and print the gh command only"
 	@echo "make gate        scripts/gate.sh batch: bundles, package tests, ruff, pyright (~3 min)"
 
 bundle: $(FLAT)
@@ -50,3 +52,9 @@ lint:
 
 gate:
 	bash scripts/gate.sh batch
+
+release:
+	bash scripts/release.sh
+
+release-dry-run:
+	DRY_RUN=1 bash scripts/release.sh

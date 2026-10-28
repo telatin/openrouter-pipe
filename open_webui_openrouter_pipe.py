@@ -7,7 +7,7 @@ id: open_webui_openrouter_pipe
 description: Stub loader that installs and imports the full pipe from GitHub
 required_open_webui_version: 0.11.4
 version: 2.8.0
-requirements: https://github.com/rbb-dev/Open-WebUI-OpenRouter-pipe/archive/refs/tags/v2.8.0.zip
+requirements: https://github.com/telatin/openrouter-pipe/archive/refs/tags/v2.8.0.zip
 license: MIT
 
 This is a lightweight stub for Open WebUI.
