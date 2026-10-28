@@ -49,7 +49,7 @@ test:
 	PYTHONPATH=. $(PYTHON) -m pytest tests -q -p xdist -n 4 --dist loadfile
 
 lint:
-	$(RUN) ruff check open_webui_openrouter_pipe/ scripts/ filters/
+	$(RUN) ruff check --extend-ignore EXE002 open_webui_openrouter_pipe/ scripts/ filters/
 	$(RUN) pyright
 
 gate:

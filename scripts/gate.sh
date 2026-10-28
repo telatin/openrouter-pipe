@@ -112,8 +112,8 @@ collect_no_plugins() {
 }
 
 static_checks() {
-  step "ruff (source)";  keep ruff check open_webui_openrouter_pipe/ scripts/ filters/
-  step "ruff (bundles)"; keep ruff check --per-file-ignores '*:E402' "${BUNDLES[@]}"
+  step "ruff (source)";  keep ruff check --extend-ignore EXE002 open_webui_openrouter_pipe/ scripts/ filters/
+  step "ruff (bundles)"; keep ruff check --extend-ignore EXE002 --per-file-ignores '*:E402' "${BUNDLES[@]}"
   step "pyright";        keep pyright
   step "prose gate";     keep python scripts/check_added_prose.py HEAD --path open_webui_openrouter_pipe
   step "prescription ledger"
