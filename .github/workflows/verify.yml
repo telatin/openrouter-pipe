@@ -46,7 +46,7 @@ jobs:
           # Install CPU-only PyTorch first (saves ~5GB, much faster)
           uv pip install --python .venv/bin/python torch --index-url https://download.pytorch.org/whl/cpu
           # Install open-webui and project dependencies, including the test extra
-          uv pip install --python .venv/bin/python open-webui -e ".[test]"
+          uv pip install --python .venv/bin/python "open-webui==0.11.4" -e ".[test]"
           uv pip install --python .venv/bin/python pyright==1.1.408 cairosvg pyzipper ruff==0.16.0
 
       - name: Lint source code
@@ -201,7 +201,7 @@ jobs:
           # Install CPU-only PyTorch first (saves ~5GB, much faster)
           uv pip install --python .venv/bin/python torch --index-url https://download.pytorch.org/whl/cpu
           # Install open-webui and project dependencies, including the test extra
-          uv pip install --python .venv/bin/python open-webui -e ".[test]"
+          uv pip install --python .venv/bin/python "open-webui==0.11.4" -e ".[test]"
           uv pip install --python .venv/bin/python pyright==1.1.408 cairosvg pyzipper ruff==0.16.0
 
       - name: Run tests
