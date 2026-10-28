@@ -14,7 +14,7 @@ during simple imports like `from open_webui_openrouter_pipe import Pipe`.
 
 from typing import TYPE_CHECKING, Any
 
-_FALLBACK_VERSION = "2.8.0"
+_FALLBACK_VERSION = "3.0.0"
 
 __version__ = _FALLBACK_VERSION
 try:
