@@ -40,7 +40,30 @@ make all
 for f in "${BUNDLES[@]}"; do [ -s "$f" ] || die "missing bundle $f"; done
 
 args=(release create "$tag" "${BUNDLES[@]}" --target "$(git rev-parse HEAD)" --title "$tag")
-if [ -s "$NOTES_FILE" ]; then args+=(--notes-file "$NOTES_FILE"); else args+=(--generate-notes); fi
+BODY_LIMIT=120000
+body_file=""
+if [ -s "$NOTES_FILE" ]; then
+  if [ "$(wc -m < "$NOTES_FILE")" -le "$BODY_LIMIT" ]; then
+    args+=(--notes-file "$NOTES_FILE")
+  else
+    body_file=$(mktemp)
+    trap 'rm -f "$body_file"' EXIT
+    python - "$NOTES_FILE" "$body_file" "$BODY_LIMIT" <<'PY'
+import sys
+src, dst, limit = sys.argv[1], sys.argv[2], int(sys.argv[3])
+cut = open(src, encoding="utf-8").read()[:limit].rsplit("\n", 1)[0]
+note = "\n\n---\n\n_These notes exceed GitHub's release body limit and are cut here. The full text is attached as `RELEASE_NOTES.md`._\n"
+open(dst, "w", encoding="utf-8").write(cut + note)
+PY
+    full_notes="$(dirname "$body_file")/RELEASE_NOTES.md"
+    cp "$NOTES_FILE" "$full_notes"
+    trap 'rm -f "$body_file" "$full_notes"' EXIT
+    echo "release: $NOTES_FILE is over $BODY_LIMIT characters; truncating the body and attaching the full file"
+    args+=("$full_notes" --notes-file "$body_file")
+  fi
+else
+  args+=(--generate-notes)
+fi
 
 echo "release: $tag from $(git rev-parse --short HEAD) on $branch"
 if [ "${DRY_RUN:-}" = 1 ]; then
