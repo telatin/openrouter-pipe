@@ -1,8 +1,9 @@
 # Rebuild the single-file bundles. Run `make help` for targets.
-# Override the interpreter with PYTHON=... if .venv is elsewhere.
+# Everything runs inside the micromamba env MAMBA_ENV (default webui-dev).
 
-PYTHON ?= .venv/bin/python
-ACTIVATE = . .venv/bin/activate
+MAMBA_ENV ?= webui-dev
+RUN       ?= micromamba run -n $(MAMBA_ENV)
+PYTHON    ?= $(RUN) python
 
 FLAT            = open_webui_openrouter_pipe_bundled.py
 COMPRESSED      = open_webui_openrouter_pipe_bundled_compressed.py
@@ -48,7 +49,8 @@ test:
 	PYTHONPATH=. $(PYTHON) -m pytest tests -q -p xdist -n 4 --dist loadfile
 
 lint:
-	$(ACTIVATE) && ruff check open_webui_openrouter_pipe/ scripts/ filters/ && pyright
+	$(RUN) ruff check open_webui_openrouter_pipe/ scripts/ filters/
+	$(RUN) pyright
 
 gate:
 	bash scripts/gate.sh batch

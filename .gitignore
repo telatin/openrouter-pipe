@@ -27,3 +27,4 @@ open_webui_openrouter_pipe_bundled_compressed_no_plugins.py
 scratchpad/
 
 .ruff_cache/
+build/

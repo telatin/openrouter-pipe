@@ -42,7 +42,7 @@ def _let_aioresponses_build_aiohttp_314_responses() -> None:
     class _MockedResponse(aiohttp.ClientResponse):
         def __init__(self, *args: Any, stream_writer: Any = None, **kwargs: Any) -> None:
             nothing_uploaded: Any = _NothingUploaded()
-            super().__init__(*args, stream_writer=stream_writer or nothing_uploaded, **kwargs)
+            super().__init__(*args, stream_writer=stream_writer or nothing_uploaded, **kwargs)  # pyright: ignore[reportCallIssue]
 
     setattr(_aioresponses_core, "ClientResponse", _MockedResponse)
 

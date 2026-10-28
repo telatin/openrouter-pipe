@@ -3,8 +3,6 @@
     "open_webui_openrouter_pipe",
     "tests",
   ],
-  "venvPath": ".",
-  "venv": ".venv",
   "pythonVersion": "3.11",
   "exclude": [
     "backups",

@@ -5,6 +5,11 @@
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
+ENV_NAME="${MAMBA_ENV:-webui-dev}"
+if [ "${CONDA_DEFAULT_ENV:-}" != "$ENV_NAME" ]; then
+  exec micromamba run -n "$ENV_NAME" bash "${BASH_SOURCE[0]}" "$@"
+fi
+
 BUNDLES=(open_webui_openrouter_pipe_bundled.py
          open_webui_openrouter_pipe_bundled_compressed.py
          open_webui_openrouter_pipe_bundled_no_plugins.py

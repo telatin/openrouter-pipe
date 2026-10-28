@@ -14,8 +14,10 @@
 # through run_pytest, which drops the variable from the environment it hands on.
 set -uo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.." || exit 2
-# shellcheck disable=SC1091
-source .venv/bin/activate || { echo "gate: .venv missing"; exit 2; }
+ENV_NAME="${MAMBA_ENV:-webui-dev}"
+if [ "${CONDA_DEFAULT_ENV:-}" != "$ENV_NAME" ]; then
+  exec micromamba run -n "$ENV_NAME" bash "${BASH_SOURCE[0]}" "$@"
+fi
 export PYTHONPATH=.
 
 BUNDLES=(open_webui_openrouter_pipe_bundled.py
