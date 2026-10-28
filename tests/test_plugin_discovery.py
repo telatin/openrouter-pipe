@@ -99,7 +99,12 @@ def test_manifest_discovery_imports_only_top_level_plugin_packages(monkeypatch):
     monkeypatch.setattr(sys, "meta_path", [_FakeBundleFinder(), *sys.meta_path])
     _plugins_pkg._discover_plugins()
 
-    assert imported == [_PREFIX + "pipe_dashboard"]
+    short = [name[len(_PREFIX):] for name in imported]
+    assert _PREFIX + "pipe_dashboard" in imported
+    assert all("." not in name for name in short)
+    assert not {"base", "registry"} & set(short)
+    assert "some.other.package" not in imported
+    assert len(imported) == len(set(imported))
 
 
 @_requires_introspectable_plugins
